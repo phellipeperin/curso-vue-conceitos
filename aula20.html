@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 20</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <lifecycle
+            :text="text"
+        />
+    </div>
+
+    <script>
+        const lifecycle = {
+            template: '<div>' +
+                        '<p>{{ message }}</p>' +
+                        '<p> {{ text }}</p>' +
+                    '</div>',
+            props: {
+                text: { type: String, default: '' },
+            },
+            data() {
+                return {
+                    message: '',
+                };
+            },
+            created() {
+                this.message = 'Componente nasceu';
+            },
+            updated() {
+                this.message = 'Componente foi alterado';
+            },
+        };
+
+        const app = new Vue({
+            el: '#app',
+            components: {
+                lifecycle,
+            },
+            data() {
+                return {
+                    text: 'Texto qualquer',
+                };
+            },
+            created() {
+                setTimeout(() => {
+                    this.text = 'texto mudou';
+                }, 2000);
+            },
+        });
+    </script>
+</body>
+</html>

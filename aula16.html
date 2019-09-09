@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 16</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <field />
+    </div>
+
+    <script>
+        // const field = Vue.component('Field', {
+        //     template: '<input type="text">',
+        // });
+
+        const field = {
+            template: '<input type="text">',
+        };
+
+        const app = new Vue({
+            el: '#app',
+            components: {
+                field,
+            },
+        });
+    </script>
+</body>
+</html>

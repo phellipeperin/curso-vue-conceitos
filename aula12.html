@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 12</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-form
+                v-for="field in fieldList"
+                :key="field"
+        />
+    </div>
+
+    <script>
+        const myForm = Vue.component('MyForm', {
+            template: '<div>' +
+                        '<input type="text" v-model="text">' +
+                        '<button type="button" @click="clear">Limpar</button>' +
+                        '<p>{{ reversedText }}</p>' +
+                    '</div>',
+            data() {
+                return {
+                    text: '',
+                };
+            },
+            computed: {
+                reversedText() {
+                    return this.text.split('').reverse().join(''); // nao se apegar ao reverse
+                },
+            },
+            methods: {
+                clear() {
+                    this.text = '';
+                },
+            },
+        });
+
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    fieldList: [
+                        'Nome',
+                        'Email',
+                        'Telefone',
+                    ],
+                };
+            },
+        });
+    </script>
+</body>
+</html>

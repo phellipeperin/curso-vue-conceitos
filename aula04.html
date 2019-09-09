@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Curso Vue - Aula 04</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p
+                v-for="(message, index) in messageList"
+                v-bind:key="index"
+            >
+                {{ message }} - {{ index }}
+            </p>
+        </div>
+
+        <script>
+            const app = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        messageList: [
+                            'Mensagem 01',
+                            'Mensagem 02',
+                            'Mensagem 03',
+                            'Mensagem 04',
+                        ],
+                    };
+                },
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 21</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <lifecycle
+            :text="text"
+            :show="show"
+        />
+    </div>
+
+    <script>
+        const lifecycle = {
+            template: '<div>' +
+                        '<p>{{ message }}</p>' +
+                        '<p v-if="show"> {{ text }}</p>' +
+                    '</div>',
+            props: {
+                text: { type: String, default: '' },
+                show: { type: Boolean, default: false },
+            },
+            data() {
+                return {
+                    message: '',
+                };
+            },
+            watch: {
+                'text': function() {
+                    this.message = 'Componente foi alterado. Watch que escutou';
+                },
+            },
+            created() {
+                this.message = 'Componente nasceu';
+            },
+            updated() {
+                this.message = 'Componente foi alterado (via updated)';
+            },
+        };
+
+        const app = new Vue({
+            el: '#app',
+            components: {
+                lifecycle,
+            },
+            data() {
+                return {
+                    text: 'Texto qualquer',
+                    show: false,
+                };
+            },
+            created() {
+                setTimeout(() => {
+                    // this.text = 'texto mudou';
+                    this.show = true;
+                }, 2000);
+            },
+        });
+    </script>
+</body>
+</html>

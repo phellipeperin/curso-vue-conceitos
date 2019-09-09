@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 23</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ cpf | cpf }}</p>
+    </div>
+
+    <script>
+        const cpfFilter = function(value) {
+            if (value) {
+                // return value.substring(0, 3) + '.' + value.substring(3, 6) + '.' + value.substring(6, 9) + '-' + value.substring(9);
+                return `${value.substring(0, 3)}.${value.substring(3, 6)}.${value.substring(6, 9)}-${value.substring(9)}`;
+            }
+            return '';
+        };
+
+        const app = new Vue({
+            el: '#app',
+            filters: {
+                cpf: cpfFilter,
+            },
+            data() {
+                return {
+                    cpf: '12312312312',
+                };
+            },
+        });
+    </script>
+</body>
+</html>

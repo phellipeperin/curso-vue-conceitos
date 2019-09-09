@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 22</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-focus="delay" />
+    </div>
+
+    <script>
+        const focus = {
+            inserted: function(elem, binding) {
+                setTimeout(() => {
+                    elem.focus();
+                }, binding.value);
+            },
+        };
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    delay: 2000,
+                };
+            },
+            directives: {
+                focus,
+            }
+        });
+    </script>
+</body>
+</html>

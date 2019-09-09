@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 09</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-form />
+    </div>
+
+    <script>
+        const myForm = Vue.component('MyForm', {
+            template: '<div>' +
+                        '<input type="text" v-model="text">' +
+                        '<button type="button" @click="clear">Limpar</button>' +
+                    '</div>',
+            data() {
+                return {
+                    text: '',
+                };
+            },
+            methods: {
+                clear() {
+                    this.text = '';
+                },
+            },
+        });
+
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                };
+            },
+        });
+    </script>
+</body>
+</html>

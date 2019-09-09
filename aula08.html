@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 08</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-form />
+    </div>
+
+    <script>
+        const myForm = Vue.component('MyForm', {
+            template: '<input type="text">',
+        });
+
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                };
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<html>
+<head>
+    <title>Curso Vue - Aula 15</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-form
+                v-for="field in fieldList"
+                :key="field"
+                :label="field"
+                @save="showValue"
+        />
+    </div>
+
+    <script>
+        const myForm = Vue.component('MyForm', {
+            template: '<div>' +
+                        '<span>{{ label }}&nbsp;</span>' +
+                        '<input type="text" v-model="text">' +
+                        '<button type="button" @click="save">Salvar</button>' +
+                        '<button type="button" @click="clear">Limpar</button>' +
+                        '<p>{{ reversedText }}</p>' +
+                    '</div>',
+            props: {
+                label: { type: String, required: true },
+            },
+            data() {
+                return {
+                    text: '',
+                };
+            },
+            computed: {
+                reversedText() {
+                    return this.text.split('').reverse().join(''); // nao se apegar ao reverse
+                },
+            },
+            methods: {
+                clear() {
+                    this.text = '';
+                },
+                save() {
+                    this.$emit('save', this.text);
+                },
+            },
+        });
+
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    fieldList: [
+                        'Nome',
+                        'Email',
+                        'Telefone',
+                    ],
+                };
+            },
+            methods: {
+                showValue(value) {
+                    alert(value);
+                },
+            }
+        });
+    </script>
+</body>
+</html>
