@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta charset="UTF-8"> <!-- isso muda o chartset do documento, fazendo os acentos funcionarem :) -->
+    <title>Curso Vue - Desafio 01</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <form-result
+            :name="user.name"
+            :age="user.age"
+        ></form-result>
+
+        <form-input
+            field-name="Nome"
+            @save="saveName"
+        ></form-input>
+
+        <form-input
+            field-name="Idade"
+            @save="saveAge"
+        ></form-input>
+    </div>
+
+    <script>
+        const formResult = Vue.component('FormResult', {
+            template: '<div>' +
+                        '<p v-if="name">Meu nome é {{ name }}.</p>' +
+                        '<p v-if="age">Minha idade é {{ age }}.</p>' +
+                    '</div>',
+            props: {
+                name: { type: String, default: '' },
+                age: { type: String, default: '' },
+            },
+        });
+
+        const formInput = Vue.component('FormInput', {
+            template: '<div>' +
+                        '{{ fieldName }}: <input type="text" v-model="fieldValue">' +
+                        '<button type="button" @click="save">Salvar</button>' +
+                        '<button type="button" @click="clear">Limpar</button>' +
+                    '</div>',
+            props: {
+                fieldName: { type: String, required: true },
+            },
+            data() {
+                return {
+                    fieldValue: '',
+                };
+            },
+            methods: {
+                save() {
+                    this.$emit('save', this.fieldValue);
+                    this.clear();
+                },
+                clear() { this.fieldValue = ''; },
+            },
+        });
+
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    user: {
+                        name: '',
+                        age: '',
+                    },
+                };
+            },
+            methods: {
+                saveName(name) { this.user.name = name; },
+                saveAge(age) { this.user.age = age; },
+            },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<html>
+<head>
+    <meta charset="UTF-8"> <!-- isso muda o chartset do documento, fazendo os acentos funcionarem :) -->
+    <title>Curso Vue - Desafio 02</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <form-container>
+            <template v-slot:result>
+                <form-result>
+                    <form-field-result
+                            v-for="field in fieldList"
+                            :key="field"
+                            :field-name="field"
+                            :field-value="user[field.toLowerCase()]"
+                            @save="saveField"
+                    ></form-field-result>
+                </form-result>
+            </template>
+
+            <form-field
+                v-for="field in fieldList"
+                :key="field"
+                :field-name="field"
+                @save="saveField"
+            ></form-field>
+        </form-container>
+    </div>
+
+    <script>
+        const formContainer = {
+            template: '<div>' +
+                        '<h2>Resultado</h2>' +
+                        '<slot name="result"></slot>' +
+                        '<h2>Campos (deve ser um v-for)</h2>' +
+                        '<slot></slot>' +
+                    '</div>',
+        };
+
+
+        const formResult = {
+            template: '<div>' +
+                            '<h6>Eu sou um componente dentro de um slot e com um slot dentro de mim.</h6>' +
+                            '<slot></slot>' +
+                    '</div>',
+        };
+
+
+        const formFieldResult = {
+            template: '<div>' +
+                        '<p>{{ fieldName | fieldName }} = <b>{{ displayValue }}</b>.</p>' +
+                    '</div>',
+            // template: '<p>{{ fieldName }} é {{ fieldValue || 'não definido' }}.</p>', // Maneira melhor de fazer, mas comentada para treinar o uso do created e watch!
+            filters: {
+                fieldName(value) { // duplicado por enquanto, veremos maneiras melhores de fazer isso mais para a frente
+                    if (value === 'NAME') return 'Nome';
+                    if (value === 'AGE') return 'Idade';
+                    if (value === 'JOB') return 'Profissão';
+                    return '';
+                },
+            },
+            props: {
+                fieldName: { type: String, required: true },
+                fieldValue: { type: String, default: '' },
+            },
+            data() {
+                return {
+                    displayValue: '', // precisamos usar uma variavel extra para não alterar o props (boas práticas)
+                };
+            },
+            watch: {
+                fieldValue: function() {
+                    this.displayValue = this.fieldValue;
+                },
+            },
+            created() {
+                if (!this.fieldValue) {
+                    this.displayValue = '(ainda não setado)';
+                }
+            },
+        };
+
+
+        const formField = {
+            template: '<div>' +
+                        '{{ fieldName | fieldName }}: <input type="text" v-model="fieldValue" />' +
+                        '<button type="button" @click="save">Salvar</button>' +
+                        '<button type="button" @click="clear">Limpar</button>' +
+                    '</div>',
+            filters: {
+                fieldName(value) { // duplicado por enquanto, veremos maneiras melhores de fazer isso mais para a frente
+                    if (value === 'NAME') return 'Nome';
+                    if (value === 'AGE') return 'Idade';
+                    if (value === 'JOB') return 'Profissão';
+                    return '';
+                },
+            },
+            props: {
+                fieldName: { type: String, required: true },
+            },
+            data() {
+                return {
+                    fieldValue: '',
+                };
+            },
+            methods: {
+                save() {
+                    this.$emit('save', this.fieldName, this.fieldValue);
+                    this.clear();
+                },
+                clear() { this.fieldValue = ''; },
+            },
+        };
+
+
+        const app = new Vue({
+            el: '#app',
+            components: {
+                'FormContainer': formContainer,
+                'FormResult': formResult,
+                'FormFieldResult': formFieldResult,
+                'FormField': formField,
+            },
+            data() {
+                return {
+                    fieldList: ['NAME', 'AGE', 'JOB'],
+                    user: {
+                        name: '',
+                        age: '',
+                        job: '',
+                    },
+                };
+            },
+            methods: {
+                saveField(field, value) {
+                    this.user[field.toLowerCase()] = value; // transformamos NAME em name para acessar a propriedade correta
+                },
+            },
+        });
+    </script>
+</body>
+</html>
